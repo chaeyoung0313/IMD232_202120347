@@ -1,3 +1,3 @@
-alert('sadfasfas');
-let userTyped = prompt('dsfasdfasdf');
-confirm('아무말이나' + userTyped + '쓴거랑 조합');
+alert('나의 홈페이지에 당도한 것을 환영하오. 대공.');
+let userInputFromPrompt = prompt('대공의 이름은 대관절 무엇인고?', '홍길동');
+confirm('본좌의 이름은 ' + userInputFromPrompt + '이구만');

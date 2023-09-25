@@ -15,12 +15,13 @@ function draw() {
   checkEdges();
   show();
   let mouse = createVector(mouseX, mouseY);
+
   //   let line1 = createVector(50, 50);
   //   let line2 = createVector(mouseX - 50, mouseY - 50);
 
   //   drawArrow(line1, line2, 'red');
   //   drawArrow(line1, line2.limit(35), 'blue');
-  //   let position = createVector();
+  let center = createVector(width / 2, height / 2);
 
   strokeWeight(1);
   stroke(0, 0, 255);
@@ -34,7 +35,7 @@ function draw() {
 
   //   translate(position.x, position.y);
   //   line(mouse.x, mouse.y);
-  //   mouse.sub(position);
+  mouse.sub(center);
 }
 
 function update() {

@@ -1,43 +1,54 @@
-let cv;
-let mv;
-let cvToMv;
-let position;
-let velocity;
+let mover;
+let gravity;
+let mVec;
+let pMVec;
 
 function setup() {
-  setCanvasContainer('mySketchGoesHere', 3, 2, true);
-  background('white');
-  cv = createVector();
-  mv = createVector();
-  cvToMv = createVector();
-  position = createVector(0, 0);
-  velocity = createVector(0.1, 1.0);
+  setCanvasContainer('canvas', 1, 1, true);
+
+  mover = new Mover(width / 2, height / 2, 100);
+  // gravity = createVector(0, 0.5);
+
+  // mVec = createVector();
+  // pMVec = createVector();
+
+  background(255);
 }
 
 function draw() {
-  background('white');
+  // const force = p5.Vector.mult(gravity, mover.mass);
 
-  cv.add(velocity);
+  // gravityA = createVector(gravity.x, gravity.y);
+  // gravityA.mult(mover.mass);
+  // mover.applyForce(gravityA);
+  // if (mouseIsPressed && isMouseInsideCanvas()) {
+  //   mover.applyForce(mVec);
+  // }
+  // if (mover.contactEdge()) {
+  //   let c = 0.01;
+  //   let friction = mover.vel.copy();
+  //   friction.mult(-1);
+  //   friction.mult(c);
+  //   mover.applyForce(friction);
+  // }
+  mover.update();
+  // mover.edgeBounce();
+  // mover.contactEdge();
+  mover.display();
+  // mover.displayVectors();
 
-  mv.set(mouseX, mouseY);
-  cvToMv = p5.Vector.sub(mv, cv);
-
-  position.add(velocity);
-
-  if (position.x > width || position.x < 0) {
-    velocity.x *= -1;
-  }
-  if (position.y > height || position.y < 0) {
-    velocity.y *= -1;
-  }
-
-  strokeWeight(3);
-  stroke(0);
-  translate(cv.x, cv.y);
-  line(0, 0, position.x, position.y);
-
-  stroke(0);
-  fill(50);
-  strokeWeight(2);
-  circle(position.x, position.y, 48);
+  background(255);
 }
+
+// function mouseMoved() {}
+
+// function mousePressed() {}
+
+// function mouseDragged() {}
+
+// function mouseReleased() {
+//   pMVec.set(pmouseX, pmouseY);
+//   mVec.set(mouseX, mouseY);
+
+//   mover.applyForce(throwingForce);
+// }

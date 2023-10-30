@@ -2,12 +2,12 @@ class Particle {
   constructor(x, y) {
     this.pos = createVector(random(width), -20);
     this.initialX = x;
-    this.vel = createVector(0, 5);
+    this.vel = createVector(0, 3);
     this.acc = createVector(0, 0);
     this.rad = 8;
     this.lifeSpan = 512;
     this.angle = 0;
-    this.angularSpeed = random(0.05, 0.3);
+    this.angularSpeed = random(0.02, 0.2);
 
     this.rotationRadius = random(0, 1);
     // this.color = color(H, S, L);

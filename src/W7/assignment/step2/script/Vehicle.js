@@ -1,13 +1,48 @@
 class Vehicle {
   constructor(x, y, rad, speedMx, forceMx, color) {
     this.pos = createVector(x, y);
-    this.vel = createVector();
+    // this.vel = createVector();
+    this.vel = p5.Vector.random2D();
     this.acc = createVector();
     this.mass = 1;
     this.rad = rad;
     this.speedMx = speedMx;
     this.forceMx = forceMx;
     this.color = color;
+  }
+
+  separate(others) {
+    let cnt = 0;
+    let steer = createVector(0, 0);
+    others.forEach((eachOther) => {
+      let dist = this.pos.dist(eachOther.pos);
+      if (dist > 0 && dist <= eachOther.rad + this.rad) {
+        let towardMeVec = p5.Vector.sub(this.pos, eachOther.pos);
+        towardMeVec.setMag(1 / dist);
+        steer.add(towardMeVec);
+        cnt++;
+      }
+    });
+    if (cnt > 0) {
+      steer.div(cnt);
+      steer.setMag(this.speedMx);
+      steer.sub(this.vel);
+      steer.limit(this.forceMx);
+    }
+    return steer;
+  }
+
+  borderInfinite() {
+    if (this.pos.x < -20) {
+      this.pos.x = width + 20;
+    } else if (this.pos.x > width + 20) {
+      this.pos.x = -20;
+    }
+    if (this.pos.y < -20) {
+      this.pos.y = height + 20;
+    } else if (this.pos.y > height + 20) {
+      this.pos.y = -20;
+    }
   }
 
   seek(target) {
@@ -39,6 +74,7 @@ class Vehicle {
 
   update() {
     this.vel.add(this.acc);
+    this.vel.limit(this.speedMx);
     this.pos.add(this.vel);
     this.acc.mult(0);
   }

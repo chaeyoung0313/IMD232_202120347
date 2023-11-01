@@ -1,29 +1,25 @@
-let emitter;
-let emitters = [];
-let gravity = 0;
+let traffic;
+let debug = true;
 
 function setup() {
-  setCanvasContainer('canvas', 3, 2, true);
+  setCanvasContainer('canvas', 2, 1, true);
 
-  emitter = new Emitter(random(width), 0);
+  colorMode(HSL, 360, 100, 100, 100);
 
-  gravity = createVector(0, 0.1);
+  traffic = new Traffic();
 
-  background(255);
+  for (let n = 0; n < 20; n++) {
+    traffic.addVehicle(random(width), random(height));
+  }
+
+  background(0, 100, 100);
 }
 
 function draw() {
-  emitter.addParticle();
-  for (let i = 0; i < emitters.length; i++) {
-    emitters[i].addParticle();
-  }
+  background(0, 100, 100);
+  traffic.run();
+}
 
-  background(255);
-  emitter.update(gravity);
-  emitter.display();
-  for (let i = 0; i < emitters.length; i++) {
-    emitters[i].update(gravity);
-    emitters[i].display();
-  }
-  console.log(emitter.particles.length);
+function mouseDragged() {
+  traffic.addVehicle(mouseX, mouseY);
 }

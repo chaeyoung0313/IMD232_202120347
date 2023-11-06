@@ -1,16 +1,16 @@
 class Vehicle {
   // Vehicle 클래스 정의
-  constructor(x, y, mass, rad, speedMx, forceMx, color) {
+  constructor(x, y, mass, rad, speedMx, forceMx, clr) {
     // 생성자 메서드, 탈것 객체를 초기화하는 데 사용(x: 탈것의 초기 x좌표, y: 탈것의 초기 y좌표, mass: 탈것의 질량, rad: 탈것의 반지름, speedMx: 탈것의 최대 속도, forceM: 탈것이 받을 수 있는 최대 힘, color: 탈것의 색상값)
     this.pos = createVector(x, y); // 위치 벡터 초기화
-    this.vel = p5.Vector.random2D(); // 무작위 방향의 속도 벡터 설정
+    this.vel = p5.Vector.random2D().mult(speedMx); // 무작위 방향의 속도 벡터 설정
     this.acc = createVector(); // 가속도 벡터 초기화
     this.mass = mass; // 탈것의 질량 설정
-    this.rad = rad; //탈것의 반지름 설정
-    this.speedMx = speedMx; // 최대 속도 설정
+    this.rad = rad * 2; //탈것의 반지름 설정
+    this.speedMx = 10; // 최대 속도 설정
     this.forceMx = forceMx; // 최대 힘 설정
     this.neighborhooodRad = 50; // 이웃 반경 설정
-    this.color = color; // 탈것의 색상 설정
+    this.colorValue = clr || color(random(0, 360), 100, 50); // 탈것의 색상 설정
   }
 
   cohesion(others) {
@@ -136,7 +136,7 @@ class Vehicle {
     translate(this.pos.x, this.pos.y); // 위치로 이동 변환 적용
     rotate(this.vel.heading()); // 속도에 따라 회전 변환 적용
     noStroke(); // 테두리 없음
-    fill(this.color); // 색상 채우기
+    fill(this.colorValue); // 색상 채우기
     beginShape(); // 다각형 그리기 시작
     vertex(this.rad, 0); // 정점 추가
     vertex(this.rad * cos(radians(-135)), this.rad * sin(radians(-135))); // 각 정점 추가하여 다각형 형성

@@ -1,6 +1,7 @@
 const tiles = [];
 const rowNum = 10,
   colNum = 10;
+let lastClickedTile = null;
 
 function setup() {
   createCanvas(400, 400);
@@ -29,8 +30,15 @@ function draw() {
 
 function mouseClicked() {
   tiles.forEach((tile) => {
-    if (tile.isMouseOver(mouseX, mouseY)) {
+    if (tile.isMouseOver(mouseX, mouseY) && tile !== lastClickedTile) {
       tile.toggleState();
+      lastClickedTile = tile;
+
+      // 5초 후에 타일 상태 리셋
+      setTimeout(() => {
+        tile.toggleState();
+        lastClickedTile = null;
+      }, 5000);
     }
   });
 }

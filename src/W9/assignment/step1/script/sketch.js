@@ -12,6 +12,23 @@ function setup() {
   ropeB = createRope(350, 50, 10, 1, 10, 10, 'circle', 20, 0, 0, 0.2);
   ropeC = createRope(600, 50, 5, 1, 10, 10, 'polygon', 25, 5, 0, 0.2);
 
+  // 로프 아래에 달려있는 도형들의 물리 속성 조절
+  // ropeA, ropeB, ropeC에 대한 물체 속성 변경
+  ropeA.bodies.forEach((body) => {
+    body.restitution = 0.5; // 탄성 (물체가 다른 물체에 부딪혔을 때 튕기는 정도) 조절
+    body.friction = 0.1; // 마찰 조절
+  });
+
+  ropeB.bodies.forEach((body) => {
+    body.restitution = 0.5;
+    body.friction = 0.1;
+  });
+
+  ropeC.bodies.forEach((body) => {
+    body.restitution = 0.5;
+    body.friction = 0.1;
+  });
+
   Matter.Composite.add(world, [
     ropeA,
     ropeB,
@@ -24,7 +41,7 @@ function setup() {
   let mouseOptions = {
     mouse: canvasMouse,
     constraint: {
-      stiffness: 0.2,
+      stiffness: 1,
       render: {
         visible: false,
       },

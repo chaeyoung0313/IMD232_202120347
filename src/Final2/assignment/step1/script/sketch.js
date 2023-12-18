@@ -1,62 +1,52 @@
-let floatingTexts = [];
+const tiles = [];
+const rowNum = 6;
+const colNum = 6;
+const mineNum = 5;
+const mineIdx = [];
 
 function setup() {
-  createCanvas(400, 400);
-  textSize(20);
+  setCanvasContainer('canvas', 1, 1, true);
+
+  const tileW = width / colNum;
+  const tileH = height / rowNum;
+  for (let row = 0; row < rowNum; row++) {
+    for (let col = 0; col < colNum; col++) {
+      const x = tileW * col;
+      const y = tileH * row;
+      tiles.push(new Tile(x, y, tileW, tileH, false));
+    }
+  }
+  for (let cnt = 0; cnt < mineNum; cnt++) {
+    let randomIdx = floor(random(rowNum * colNum));
+    while (mineIdx.includes(randomIdx)) {
+      randomIdx = floor(random(rowNum * colNum));
+    }
+    tiles[randomIdx].isMine = true;
+    mineIdx.push(randomIdx);
+  }
+
+  background(255);
 }
 
 function draw() {
   background(255);
+  tiles.forEach((eachTile) => {
+    eachTile.display();
+  });
+}
 
-  for (let i = floatingTexts.length - 1; i >= 0; i--) {
-    floatingTexts[i].display();
-    floatingTexts[i].move();
-
-    // 화면 밖으로 벗어나면 배열에서 제거
-    if (
-      floatingTexts[i].x < 0 ||
-      floatingTexts[i].x > width ||
-      floatingTexts[i].y < 0 ||
-      floatingTexts[i].y > height
-    ) {
-      floatingTexts.splice(i, 1);
+// mouseClicked 함수 수정
+function mouseClicked() {
+  for (let idx = 0; idx < tiles.length; idx++) {
+    if (tiles[idx].toggleState(mouseX, mouseY)) {
+      if (tiles[idx].isMine && tiles[idx].revealed) {
+        // 클릭한 타일이 별 모양이면서 이미 드러난 경우
+        setTimeout(() => {
+          window.location.href =
+            'http://127.0.0.1:5500/src/Final2/assignment/step2/index.html'; // 0.5초 후에 새로운 링크로 이동
+        });
+      }
+      break;
     }
-  }
-
-  // 랜덤한 시간 간격으로 새로운 글자 생성
-  if (frameCount % 60 === 0) {
-    let newText = new FloatingText(
-      random(width),
-      random(height),
-      getRandomChar()
-    );
-    floatingTexts.push(newText);
-  }
-}
-
-function getRandomChar() {
-  // 무작위로 알파벳 대문자 선택
-  let charCode = int(random(65, 91));
-  return String.fromCharCode(charCode);
-}
-
-class FloatingText {
-  constructor(x, y, content) {
-    this.x = x;
-    this.y = y;
-    this.content = content;
-    this.speedX = random(-2, 2);
-    this.speedY = random(-2, 2);
-  }
-
-  display() {
-    fill(0);
-    textAlign(CENTER, CENTER);
-    text(this.content, this.x, this.y);
-  }
-
-  move() {
-    this.x += this.speedX;
-    this.y += this.speedY;
   }
 }
